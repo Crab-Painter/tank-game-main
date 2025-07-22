@@ -1,0 +1,19 @@
+[gd_scene load_steps=5 format=3 uid="uid://cvg4nopw4ww5t"]
+
+[ext_resource type="Script" uid="uid://dyesmxjwctn78" path="res://scripts/main_player.gd" id="1_xr3bu"]
+[ext_resource type="Texture2D" uid="uid://c7blef2r7n7ki" path="res://assets/tank_complex_hull_2.png" id="2_xr3bu"]
+[ext_resource type="Script" uid="uid://53o12a56u4rr" path="res://scripts/Turret.cs" id="3_7ughw"]
+[ext_resource type="Texture2D" uid="uid://d03oel13av5oj" path="res://assets/tank_complex_turret_2.png" id="3_vr3wt"]
+
+[node name="Tank" type="CharacterBody2D"]
+script = ExtResource("1_xr3bu")
+
+[node name="Hull" type="Sprite2D" parent="."]
+texture = ExtResource("2_xr3bu")
+
+[node name="Turret" type="CharacterBody2D" parent="."]
+script = ExtResource("3_7ughw")
+
+[node name="Sprite2D" type="Sprite2D" parent="Turret"]
+texture = ExtResource("3_vr3wt")
+offset = Vector2(0, -35)
