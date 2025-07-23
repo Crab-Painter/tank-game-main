@@ -1,3 +1,4 @@
+using System;
 using Godot;
 
 namespace script;
@@ -9,36 +10,20 @@ public partial class MainPlayer : Unit
         base._Ready();
         //TODO move to the config when there will be more then 1 tank option
         ForwardSpeed = 60;
-        BackwardsSpeed = 20;
-        HullTurnSpeedDegrees = 45;
-        TurretTurnSpeedDegrees = 45;
+        BackwardSpeed = 20;
+        HullTurnSpeed = (float)45 / 180 * (float)Math.PI;
+        TurretTurnSpeed = (float)45 / 180 * (float)Math.PI;
     }
 
-    public override void _Process(double delta)
+    public override void _PhysicsProcess(double delta)
     {
-        //TODO there should be more scalable way to do this probbably
-        if (Input.IsActionPressed("move_forvard"))
-        {
-            var Velocity = Vector2.Up.Rotated(Rotation) * ForwardSpeed;
-            Position += Velocity * (float)delta;
-        }
+        var rotationDirection = Input.GetAxis("rotate_counterclockwise", "rotate_clockwise");
+        var movementDirection = Input.GetAxis("move_backward", "move_forvard");
+        var speed = (movementDirection > 0) ? ForwardSpeed : BackwardSpeed;
 
-        if (Input.IsActionPressed("move_backwards"))
-        {
-            var Velocity = Vector2.Up.Rotated(Rotation) * BackwardsSpeed;
-            Position -= Velocity * (float)delta;
-        }
+        Rotation += rotationDirection * movementDirection * HullTurnSpeed * (float)delta; //here we mult also by movementDirection for "intuitive" backward movement
+        Velocity = movementDirection * Vector2.Up.Rotated(Rotation) * speed * (float)delta;
 
-        if (Input.IsActionPressed("turn_right"))
-        {
-            RotationDegrees += HullTurnSpeedDegrees * (float)delta;
-        }
-
-        if (Input.IsActionPressed("turn_left"))
-        {
-            RotationDegrees -= HullTurnSpeedDegrees * (float)delta;
-        }
-
-        
+        MoveAndCollide(Velocity);
     }
 }

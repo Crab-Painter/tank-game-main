@@ -1,19 +1,26 @@
-[gd_scene load_steps=5 format=3 uid="uid://cvg4nopw4ww5t"]
+[gd_scene load_steps=6 format=3 uid="uid://cvg4nopw4ww5t"]
 
-[ext_resource type="Script" uid="uid://dyesmxjwctn78" path="res://scripts/main_player.gd" id="1_xr3bu"]
-[ext_resource type="Texture2D" uid="uid://c7blef2r7n7ki" path="res://assets/tank_complex_hull_2.png" id="2_xr3bu"]
-[ext_resource type="Script" uid="uid://53o12a56u4rr" path="res://scripts/Turret.cs" id="3_7ughw"]
-[ext_resource type="Texture2D" uid="uid://d03oel13av5oj" path="res://assets/tank_complex_turret_2.png" id="3_vr3wt"]
+[ext_resource type="Script" uid="uid://o47grlga75xs" path="res://scripts/MainPlayer.cs" id="1_52rm5"]
+[ext_resource type="Texture2D" uid="uid://ga1mh4am18v6" path="res://assets/tank_complex_hull.png" id="2_k4udv"]
+[ext_resource type="Script" uid="uid://cfffyaxr03wa8" path="res://scripts/Turret.cs" id="3_7ughw"]
+[ext_resource type="Texture2D" uid="uid://dabjlspmi3fiu" path="res://assets/tank_complex_gun.png" id="4_r5n64"]
+[ext_resource type="Texture2D" uid="uid://ds0y2ohe3w4at" path="res://assets/tank_complex_turret.png" id="5_gv8u8"]
 
 [node name="Tank" type="CharacterBody2D"]
-script = ExtResource("1_xr3bu")
+script = ExtResource("1_52rm5")
 
 [node name="Hull" type="Sprite2D" parent="."]
-texture = ExtResource("2_xr3bu")
+texture = ExtResource("2_k4udv")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(-26, 52, 26, 52, 26, -50, 14, -50, 0, -56, -14, -50, -26, -50)
 
 [node name="Turret" type="CharacterBody2D" parent="."]
 script = ExtResource("3_7ughw")
 
-[node name="Sprite2D" type="Sprite2D" parent="Turret"]
-texture = ExtResource("3_vr3wt")
-offset = Vector2(0, -35)
+[node name="Gun" type="Sprite2D" parent="Turret"]
+texture = ExtResource("4_r5n64")
+offset = Vector2(0, -69)
+
+[node name="Turret" type="Sprite2D" parent="Turret"]
+texture = ExtResource("5_gv8u8")

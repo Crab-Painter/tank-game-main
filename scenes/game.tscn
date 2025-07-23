@@ -1,11 +1,18 @@
 [gd_scene load_steps=3 format=3 uid="uid://cw0wkgqofwcwd"]
 
 [ext_resource type="PackedScene" uid="uid://cvg4nopw4ww5t" path="res://scenes/main_player.tscn" id="1_uwrxv"]
-[ext_resource type="Script" uid="uid://d1xfujquytyjq" path="res://scripts/MainPlayer.cs" id="2_yqjtg"]
+[ext_resource type="PackedScene" uid="uid://bnohcr6c78cmi" path="res://scenes/house.tscn" id="3_lnu2h"]
 
 [node name="Game" type="Node2D"]
 
-[node name="Main player" parent="." instance=ExtResource("1_uwrxv")]
-script = ExtResource("2_yqjtg")
+[node name="Tank" parent="." instance=ExtResource("1_uwrxv")]
 
 [node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="House" parent="." instance=ExtResource("3_lnu2h")]
+position = Vector2(380, 81)
+collision_mask = 2
+
+[node name="House2" parent="." instance=ExtResource("3_lnu2h")]
+position = Vector2(-350, -81)
+collision_mask = 2
