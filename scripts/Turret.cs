@@ -1,7 +1,7 @@
 using System;
 using Godot;
 
-namespace script;
+namespace Tankgamemain.scripts;
 
 public partial class Turret : MainPlayer
 {

@@ -1,6 +1,6 @@
 using Godot;
 
-namespace script;
+namespace Tankgamemain.scripts;
 
 public partial class Unit : CharacterBody2D
 {
