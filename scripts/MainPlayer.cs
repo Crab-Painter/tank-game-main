@@ -9,10 +9,10 @@ public partial class MainPlayer : Unit
     {
         base._Ready();
         //TODO move to the config when there will be more then 1 tank option
-        ForwardSpeed = 60;
-        BackwardSpeed = 20;
-        HullTurnSpeed = (float)45 / 180 * (float)Math.PI;
-        TurretTurnSpeed = (float)45 / 180 * (float)Math.PI;
+        ForwardSpeed = UnitConversion.Import("37 km/h");
+        BackwardSpeed = UnitConversion.Import("15 km/h");
+        HullTurnSpeed = UnitConversion.Import("45 deg/s");
+        TurretTurnSpeed = UnitConversion.Import("45 deg/s");
     }
 
     public override void _PhysicsProcess(double delta)
@@ -21,7 +21,8 @@ public partial class MainPlayer : Unit
         var movementDirection = Input.GetAxis("move_backward", "move_forvard");
         var speed = (movementDirection > 0) ? ForwardSpeed : BackwardSpeed;
 
-        Rotation += rotationDirection * movementDirection * HullTurnSpeed * (float)delta; //here we mult also by movementDirection for "intuitive" backward movement
+        var backwardMoveAndTurnCorrection = movementDirection == -1 ? -1 : 1; //for "intuitive" backward movement
+        Rotation += rotationDirection * backwardMoveAndTurnCorrection * HullTurnSpeed * (float)delta;
         Velocity = movementDirection * Vector2.Up.Rotated(Rotation) * speed * (float)delta;
 
         MoveAndCollide(Velocity);
