@@ -1,26 +1,124 @@
-[gd_scene load_steps=6 format=3 uid="uid://cvg4nopw4ww5t"]
+[gd_scene load_steps=18 format=3 uid="uid://cvg4nopw4ww5t"]
 
 [ext_resource type="Script" uid="uid://o47grlga75xs" path="res://scripts/MainPlayer.cs" id="1_52rm5"]
-[ext_resource type="Texture2D" uid="uid://ga1mh4am18v6" path="res://assets/tank_complex_hull.png" id="2_k4udv"]
-[ext_resource type="Script" uid="uid://cfffyaxr03wa8" path="res://scripts/Turret.cs" id="3_7ughw"]
+[ext_resource type="Texture2D" uid="uid://cd75vs4bms5yk" path="res://assets/tracks animation sprite.png" id="2_k4udv"]
+[ext_resource type="Texture2D" uid="uid://ga1mh4am18v6" path="res://assets/tank_complex_hull.png" id="3_r5n64"]
 [ext_resource type="Texture2D" uid="uid://dabjlspmi3fiu" path="res://assets/tank_complex_gun.png" id="4_r5n64"]
 [ext_resource type="Texture2D" uid="uid://ds0y2ohe3w4at" path="res://assets/tank_complex_turret.png" id="5_gv8u8"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gv8u8"]
+atlas = ExtResource("2_k4udv")
+region = Rect2(0, 0, 112, 112)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qksnn"]
+atlas = ExtResource("2_k4udv")
+region = Rect2(112, 0, 112, 112)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hjun7"]
+atlas = ExtResource("2_k4udv")
+region = Rect2(224, 0, 112, 112)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1xr6p"]
+atlas = ExtResource("2_k4udv")
+region = Rect2(336, 0, 112, 112)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hafb0"]
+atlas = ExtResource("2_k4udv")
+region = Rect2(448, 0, 112, 112)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_3oxqv"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gv8u8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qksnn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hjun7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1xr6p")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hafb0")
+}],
+"loop": true,
+"name": &"Movement",
+"speed": 16.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_k1aeb"]
+atlas = ExtResource("2_k4udv")
+region = Rect2(0, 112, 112, 112)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ucfnr"]
+atlas = ExtResource("2_k4udv")
+region = Rect2(112, 112, 112, 112)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yegtr"]
+atlas = ExtResource("2_k4udv")
+region = Rect2(224, 112, 112, 112)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ua3wq"]
+atlas = ExtResource("2_k4udv")
+region = Rect2(336, 112, 112, 112)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_a77l1"]
+atlas = ExtResource("2_k4udv")
+region = Rect2(448, 112, 112, 112)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_j0d10"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_k1aeb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ucfnr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yegtr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ua3wq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_a77l1")
+}],
+"loop": true,
+"name": &"Movement",
+"speed": 10.0
+}]
 
 [node name="Tank" type="CharacterBody2D"]
 script = ExtResource("1_52rm5")
 
+[node name="Right track" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_3oxqv")
+animation = &"Movement"
+frame = 1
+frame_progress = 0.0825054
+
+[node name="Left track" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_j0d10")
+animation = &"Movement"
+frame = 1
+frame_progress = 0.00332629
+
 [node name="Hull" type="Sprite2D" parent="."]
-texture = ExtResource("2_k4udv")
+texture = ExtResource("3_r5n64")
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+visible = false
 polygon = PackedVector2Array(-26, 52, 26, 52, 26, -50, 14, -50, 0, -56, -14, -50, -26, -50)
 
-[node name="Turret" type="CharacterBody2D" parent="."]
-script = ExtResource("3_7ughw")
+[node name="Turret node" type="Node2D" parent="."]
 
-[node name="Gun" type="Sprite2D" parent="Turret"]
+[node name="Gun" type="Sprite2D" parent="Turret node"]
 texture = ExtResource("4_r5n64")
 offset = Vector2(0, -69)
 
-[node name="Turret" type="Sprite2D" parent="Turret"]
+[node name="Turret" type="Sprite2D" parent="Turret node"]
 texture = ExtResource("5_gv8u8")
