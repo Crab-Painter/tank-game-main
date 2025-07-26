@@ -20,35 +20,34 @@ public partial class Tank : CharacterBody2D
         trackLeft = GetNode<AnimatedSprite2D>("Left track");
         turretNode = GetNode<Node2D>("Turret node");
     }
-    protected virtual void Movement(double delta) { }
-
     public override void _PhysicsProcess(double delta)
     {
-        //movement
-        //turret rotation
-        var rotationDirection = Input.GetAxis("rotate_counterclockwise", "rotate_clockwise");//
+        var fdelta = (float)delta;
+        var rotationDirection = Input.GetAxis("rotate_counterclockwise", "rotate_clockwise");
         var movementDirection = Input.GetAxis("move_backward", "move_forvard");
+        var input = GetControlsInput();
 
-
-        Move((float)delta, movementDirection, rotationDirection);
-        AnimateTracks(rotationDirection, movementDirection);
-        RotateTurret((float)delta);
-
-
-
+        Move(fdelta, movementDirection, rotationDirection);
+        AnimateTracks(movementDirection, rotationDirection);
+        RotateTurret(fdelta);
     }
 
-    protected void Move(float delta, float movementDirection, float rotationDirection)
+    protected virtual TankControlsInputDTO GetControlsInput()
     {
-        var speed = (movementDirection > 0) ? ForwardSpeed : BackwardSpeed;//
+        throw new Exception("method GetControlsInput should be overriden in " + GetType().Name);
+    }
 
+    private void Move(float delta, float movementDirection, float rotationDirection)
+    {
+        var speed = (movementDirection > 0) ? ForwardSpeed : BackwardSpeed;
         var backwardMoveAndTurnCorrection = movementDirection == -1 ? -1 : 1; //for "intuitive" backward movement
         Rotation += rotationDirection * backwardMoveAndTurnCorrection * HullTurnSpeed * delta;
         Velocity = movementDirection * Vector2.Up.Rotated(Rotation) * speed * delta;
 
         MoveAndCollide(Velocity);
     }
-    protected void AnimateTracks(float movementDirection, float rotationDirection)
+    
+    private void AnimateTracks(float movementDirection, float rotationDirection)
     {
         var leftSpeed = 0F;
         var rightSpeed = 0F;
@@ -58,9 +57,9 @@ public partial class Tank : CharacterBody2D
         trackLeft.SetSpeedScale(leftSpeed);
         trackRight.Play("Movement");
         trackLeft.Play("Movement");
-    }
-    
-    protected void RotateTurret(float delta)
+    }  
+
+    private void RotateTurret(float delta)
     {
         var cursorRelativeToTurret = GetGlobalMousePosition() - turretNode.GlobalPosition;
         var turretDirection = Vector2.Up.Rotated(turretNode.GlobalRotation);

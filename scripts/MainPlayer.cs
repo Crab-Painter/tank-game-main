@@ -15,5 +15,13 @@ public partial class MainPlayer : Tank
         HullTurnSpeed = UnitConversion.Import("45 deg/s");
         TurretTurnSpeed = UnitConversion.Import("45 deg/s");
     }
-    //todo add input
+
+    protected override TankControlsInputDTO GetControlsInput()
+    {
+        return new TankControlsInputDTO( 
+            Input.GetAxis("move_backward", "move_forvard"),
+            Input.GetAxis("rotate_counterclockwise", "rotate_clockwise")
+        );
+    }
+
 }
