@@ -18,9 +18,11 @@ public partial class MainPlayer : Tank
 
     protected override TankControlsInputDTO GetControlsInput()
     {
-        return new TankControlsInputDTO( 
+        
+        return new TankControlsInputDTO(
             Input.GetAxis("move_backward", "move_forvard"),
-            Input.GetAxis("rotate_counterclockwise", "rotate_clockwise")
+            Input.GetAxis("rotate_counterclockwise", "rotate_clockwise"),
+            Input.IsActionJustPressed("fire_gun")
         );
     }
 

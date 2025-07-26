@@ -12,24 +12,29 @@ public partial class Tank : CharacterBody2D
 
     private AnimatedSprite2D trackRight;
     private AnimatedSprite2D trackLeft;
+    private AnimatedSprite2D gun;
     private Node2D turretNode;
     public override void _Ready()
     {
         base._Ready();
         trackRight = GetNode<AnimatedSprite2D>("Right track");
         trackLeft = GetNode<AnimatedSprite2D>("Left track");
+        gun = GetNode<AnimatedSprite2D>("Turret node/Gun");
         turretNode = GetNode<Node2D>("Turret node");
     }
     public override void _PhysicsProcess(double delta)
     {
         var fdelta = (float)delta;
-        var rotationDirection = Input.GetAxis("rotate_counterclockwise", "rotate_clockwise");
-        var movementDirection = Input.GetAxis("move_backward", "move_forvard");
-        var input = GetControlsInput();
+        var controlsInput = GetControlsInput();
+        var movementDirection = controlsInput.MovementDirection;
+        var rotationDirection = controlsInput.RotationDirection;
+        
 
         Move(fdelta, movementDirection, rotationDirection);
         AnimateTracks(movementDirection, rotationDirection);
         RotateTurret(fdelta);
+        FireTheGun(controlsInput.IsGunShot);
+        AnimateGunFire();
     }
 
     protected virtual TankControlsInputDTO GetControlsInput()
@@ -46,7 +51,7 @@ public partial class Tank : CharacterBody2D
 
         MoveAndCollide(Velocity);
     }
-    
+
     private void AnimateTracks(float movementDirection, float rotationDirection)
     {
         var leftSpeed = 0F;
@@ -57,7 +62,7 @@ public partial class Tank : CharacterBody2D
         trackLeft.SetSpeedScale(leftSpeed);
         trackRight.Play("Movement");
         trackLeft.Play("Movement");
-    }  
+    }
 
     private void RotateTurret(float delta)
     {
@@ -69,5 +74,21 @@ public partial class Tank : CharacterBody2D
         var rotationAmountByDeltaAngle = Math.Abs(deltaAngle);
 
         turretNode.Rotation += (float)Math.Min(rotationAmountMax, rotationAmountByDeltaAngle) * direction;
+    }
+
+    private void FireTheGun(bool isGunShot)
+    {
+        if (!isGunShot)
+        {
+            return;
+        }
+
+        
+        Console.WriteLine("gun fired!");
+    }
+
+    private void AnimateGunFire()
+    {
+        gun.Play("fire");
     }
 }
