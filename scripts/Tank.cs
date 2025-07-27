@@ -34,7 +34,6 @@ public partial class Tank : CharacterBody2D
         AnimateTracks(movementDirection, rotationDirection);
         RotateTurret(fdelta);
         FireTheGun(controlsInput.IsGunShot);
-        AnimateGunFire();
     }
 
     protected virtual TankControlsInputDTO GetControlsInput()
@@ -83,7 +82,8 @@ public partial class Tank : CharacterBody2D
             return;
         }
 
-        
+
+        AnimateGunFire();
         Console.WriteLine("gun fired!");
     }
 
